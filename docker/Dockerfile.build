@@ -1,0 +1,6 @@
+FROM google/golang
+ENV GOPATH /home/weave
+WORKDIR /home/weave/src/github.com/zettio/weavedns
+COPY ./server /home/weave/src/github.com/zettio/weavedns/server/
+COPY ./main.go /home/weave/src/github.com/zettio/weavedns/
+RUN go get -v && go build -ldflags '-linkmode external -extldflags "-static"' -o /home/weave/weavedns -v

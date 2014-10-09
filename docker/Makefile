@@ -1,12 +1,16 @@
 IMAGE:=/tmp/weavedns.tar
-MAIN:=../
 
 .DEFAULT: docker-image
 
 all: docker-image
 
 weavedns: ../server/*.go ../main.go
-	go get $(MAIN) && GOARCH=amd64 GOOS=linux go build -ldflags '-linkmode external -extldflags "-static"' -o $@ -v $(MAIN)
+	$(eval TMP:=$(shell mktemp -d -t weave-build))
+	cp -R ../server ../main.go ${TMP}/
+	cp Dockerfile.build ${TMP}/Dockerfile
+	docker build -t weavedns-build ${TMP}/
+	docker run weavedns-build cat /home/weave/weavedns > $@
+	chmod a+x $@
 
 .PHONY: docker-image
 
