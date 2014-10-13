@@ -29,7 +29,7 @@ func main() {
 	client.AddEventListener(events)
 
 	log.Printf("Using Docker API on %s", apiPath)
-	log.Printf("Posting updates to ", updatePath)
+	log.Printf("Posting updates to %s", updatePath)
 
 	go func() {
 		for event := range events {
