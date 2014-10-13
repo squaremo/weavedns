@@ -1,13 +1,12 @@
 NAME:=weave-updater
 IMAGE:=/tmp/$(NAME).tar
-MAIN:=../
 
 .DEFAULT: docker-image
 
 all: docker-image
 
-$(NAME): ../main.go
-	go get -v -tags netgo $(MAIN) && go build -tags netgo -ldflags '-linkmode external -extldflags "-static"' -o $@ -v $(MAIN)
+$(NAME): main.go
+	go get -v -tags netgo ./ && go build -tags netgo -ldflags '-linkmode external -extldflags "-static"' -o $@ -v ./
 
 .PHONY: docker-image
 
